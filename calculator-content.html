@@ -1,0 +1,594 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  .cro-calc-root {
+    --bg: #1a1612;
+    --bg-2: #241e19;
+    --bg-3: #2d2620;
+    --surface: #2a231d;
+    --ink: #f5ede0;
+    --ink-2: #e8dcc8;
+    --muted: #9c8f7e;
+    --muted-2: #6b6054;
+    --amber: #e8a73c;
+    --amber-soft: #f4c670;
+    --amber-deep: #b8831f;
+    --amber-input-bg: rgba(232, 167, 60, 0.08);
+    --amber-input-border: rgba(232, 167, 60, 0.4);
+    --rule: #3a2f26;
+    --rule-strong: #4a3d32;
+    --success: #7eb86a;
+    --danger: #d77159;
+
+    font-family: 'Inter Tight', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 48px 24px;
+    min-height: 100vh;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .cro-calc-root *, .cro-calc-root *::before, .cro-calc-root *::after {
+    box-sizing: border-box;
+  }
+
+  .cro-calc-root::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(232, 167, 60, 0.06), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(232, 167, 60, 0.04), transparent 40%);
+    pointer-events: none;
+  }
+
+  .cro-calc-container {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============ MASTHEAD ============ */
+  .cro-calc-masthead {
+    border-top: 2px solid var(--amber);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0 24px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cro-calc-masthead-left { flex: 1; min-width: 280px; }
+  .cro-calc-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cro-calc-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--amber);
+  }
+  .cro-calc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .cro-calc-subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 0.01em;
+  }
+  .cro-calc-masthead-right {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    line-height: 1.9;
+  }
+  .cro-calc-masthead-right strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ============ LEGEND ============ */
+  .cro-calc-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-items: center;
+  }
+  .cro-calc-legend-item { display: flex; align-items: center; gap: 8px; }
+  .cro-calc-legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  /* ============ TABLE ============ */
+  .cro-calc-table {
+    background: var(--bg-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .cro-calc-header-row {
+    display: grid;
+    grid-template-columns: minmax(200px, 1.4fr) 1fr 1fr;
+    background: var(--bg-3);
+    border-bottom: 2px solid var(--amber-deep);
+  }
+  .cro-calc-header-row > div {
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cro-calc-header-row > div:not(:last-child) {
+    border-right: 1px solid var(--rule);
+  }
+  .cro-calc-header-row > div:nth-child(2),
+  .cro-calc-header-row > div:nth-child(3) {
+    text-align: right;
+  }
+  .cro-calc-col-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+  .cro-calc-col-tag-budget {
+    background: var(--amber);
+    color: var(--bg);
+  }
+  .cro-calc-col-tag-actual {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule-strong);
+  }
+
+  .cro-calc-row {
+    display: grid;
+    grid-template-columns: minmax(200px, 1.4fr) 1fr 1fr;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s ease;
+  }
+  .cro-calc-row:last-child { border-bottom: none; }
+  .cro-calc-row:hover { background: rgba(232, 167, 60, 0.03); }
+
+  .cro-calc-row-emphasis {
+    background: linear-gradient(to right, rgba(232, 167, 60, 0.06), rgba(232, 167, 60, 0.02));
+  }
+  .cro-calc-row-emphasis .cro-calc-label {
+    font-weight: 600;
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .cro-calc-row-emphasis .cro-calc-calc {
+    color: var(--amber-soft);
+    font-weight: 600;
+  }
+
+  .cro-calc-label {
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.005em;
+  }
+
+  .cro-calc-cell {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-right: 1px solid var(--rule);
+    min-height: 56px;
+  }
+  .cro-calc-cell:last-child { border-right: none; }
+
+  /* ============ INPUT ============ */
+  .cro-calc-input-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--amber-input-bg);
+    border: 1.5px solid var(--amber-input-border);
+    border-radius: 4px;
+    padding: 7px 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    max-width: 180px;
+    transition: all 0.15s ease;
+  }
+  .cro-calc-input-wrap:hover {
+    border-color: var(--amber-deep);
+    background: rgba(232, 167, 60, 0.12);
+  }
+  .cro-calc-input-wrap:focus-within {
+    border-color: var(--amber);
+    background: rgba(232, 167, 60, 0.16);
+    box-shadow: 0 0 0 3px rgba(232, 167, 60, 0.18);
+  }
+  .cro-calc-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font: inherit;
+    color: var(--amber-soft);
+    width: 100%;
+    text-align: right;
+    padding: 0;
+    min-width: 0;
+  }
+  .cro-calc-input::-webkit-outer-spin-button,
+  .cro-calc-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .cro-calc-input[type=number] { -moz-appearance: textfield; }
+  .cro-calc-affix {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .cro-calc-affix-right { margin-left: 4px; }
+  .cro-calc-affix:not(.cro-calc-affix-right) { margin-right: 4px; }
+
+  /* ============ CALC CELL ============ */
+  .cro-calc-calc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: right;
+    width: 100%;
+    padding: 6px 11px;
+    font-variant-numeric: tabular-nums;
+  }
+  .cro-calc-calc-empty {
+    color: var(--muted-2);
+  }
+
+  /* ============ SUMMARY ============ */
+  .cro-calc-summary {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .cro-calc-card {
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  .cro-calc-card:hover {
+    border-color: var(--rule-strong);
+    transform: translateY(-2px);
+  }
+  .cro-calc-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--amber);
+  }
+  .cro-calc-card-accent-success { background: var(--success); }
+  .cro-calc-card-accent-danger { background: var(--danger); }
+  .cro-calc-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .cro-calc-card-value {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    font-variation-settings: "opsz" 144;
+  }
+  .cro-calc-card-sub {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .cro-calc-delta-pos { color: var(--success); font-weight: 600; }
+  .cro-calc-delta-neg { color: var(--danger); font-weight: 600; }
+
+  /* ============ FOOTER ============ */
+  .cro-calc-footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cro-calc-reset {
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+  }
+  .cro-calc-reset:hover {
+    background: var(--amber);
+    color: var(--bg);
+    border-color: var(--amber);
+  }
+
+  @media (max-width: 640px) {
+    .cro-calc-root { padding: 24px 12px; }
+    .cro-calc-header-row,
+    .cro-calc-row {
+      grid-template-columns: minmax(130px, 1.3fr) 1fr 1fr;
+    }
+    .cro-calc-label { padding: 12px 10px; font-size: 13px; }
+    .cro-calc-cell { padding: 8px 8px; }
+    .cro-calc-input-wrap { padding: 5px 8px; font-size: 12px; }
+    .cro-calc-calc { font-size: 12px; padding: 4px 6px; }
+    .cro-calc-header-row > div { padding: 10px; font-size: 9px; letter-spacing: 0.14em; }
+  }
+</style>
+
+<div class="cro-calc-container">
+  <header class="cro-calc-masthead">
+    <div class="cro-calc-masthead-left">
+      <div class="cro-calc-eyebrow">Instrument № 01 · Live</div>
+      <h1 class="cro-calc-title">Budget by Paint Hours</h1>
+      <div class="cro-calc-subtitle">Developed by Collision Repair Outlet</div>
+    </div>
+    <div class="cro-calc-masthead-right">
+      <div><strong>Interactive</strong> Worksheet</div>
+      <div>Material Profitability Model</div>
+    </div>
+  </header>
+
+  <div class="cro-calc-legend">
+    <div class="cro-calc-legend-item">
+      <span class="cro-calc-legend-swatch" style="background: rgba(232,167,60,0.12); border-color: rgba(232,167,60,0.4);"></span>
+      Editable input
+    </div>
+    <div class="cro-calc-legend-item">
+      <span class="cro-calc-legend-swatch" style="background: #241e19; border-color: #3a2f26;"></span>
+      Auto-calculated
+    </div>
+  </div>
+
+  <div class="cro-calc-table">
+    <div class="cro-calc-header-row">
+      <div>Metric</div>
+      <div>Budget <span class="cro-calc-col-tag cro-calc-col-tag-budget">TARGET</span></div>
+      <div>Actual <span class="cro-calc-col-tag cro-calc-col-tag-actual">YTD</span></div>
+    </div>
+    <div id="cro-calc-rows"></div>
+  </div>
+
+  <div class="cro-calc-summary" id="cro-calc-summary"></div>
+
+  <div class="cro-calc-footer">
+    <div>Collision Repair Outlet · Financial Instruments Suite</div>
+    <button class="cro-calc-reset" id="cro-calc-reset">Reset to Sample</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const root = document.getElementById('cro-calc-root');
+  if (!root) return;
+
+  const defaults = {
+    paintHours: 750.1,
+    hoursPerRO: 8.5,
+    avgSalesPerRO: 4800,
+    salesPctBudget: 10,
+    costPctBudget: 7,
+    materialInvoicedBudget: 8500,
+    actualHoursPerRO: 9.37625,
+    actualClosedROs: 80,
+    actualTotalSales: 444892.59,
+    actualMaterialInvoiced: 3951.56,
+    actualMaterialSales: 30401.11,
+    actualMaterialCost: 28005.42
+  };
+
+  let state = Object.assign({}, defaults);
+
+  const fmtMoney = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtMoneyWhole = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const fmtPct = (n) => (n * 100).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+  const fmtNum = (n, d) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+  function compute() {
+    const s = state;
+    const closedRO = s.hoursPerRO > 0 ? s.paintHours / s.hoursPerRO : 0;
+    const totalSales = s.avgSalesPerRO * closedRO;
+    const materialSales = totalSales * (s.salesPctBudget / 100);
+    const materialCost = totalSales * (s.costPctBudget / 100);
+    const bSalesPerHour = s.paintHours > 0 ? (materialSales + s.materialInvoicedBudget) / s.paintHours : 0;
+    const bCostPerHour = s.paintHours > 0 ? materialCost / s.paintHours : 0;
+    const bGP = bSalesPerHour > 0 ? (bSalesPerHour - bCostPerHour) / bSalesPerHour : 0;
+
+    const avgSalesPerROCalc = s.actualClosedROs > 0 ? s.actualTotalSales / s.actualClosedROs : 0;
+    const salesPctCalc = s.actualTotalSales > 0 ? (s.actualMaterialSales + s.actualMaterialInvoiced) / s.actualTotalSales : 0;
+    const costPctCalc = s.actualTotalSales > 0 ? s.actualMaterialCost / s.actualTotalSales : 0;
+    const aSalesPerHour = s.paintHours > 0 ? (s.actualMaterialInvoiced + s.actualMaterialSales) / s.paintHours : 0;
+    const aCostPerHour = s.paintHours > 0 ? s.actualMaterialCost / s.paintHours : 0;
+    const aGP = aSalesPerHour > 0 ? (aSalesPerHour - aCostPerHour) / aSalesPerHour : 0;
+
+    return {
+      budget: { closedRO, totalSales, materialSales, materialCost, salesPerHour: bSalesPerHour, costPerHour: bCostPerHour, gp: bGP },
+      actual: { avgSalesPerROCalc, salesPctCalc, costPctCalc, salesPerHour: aSalesPerHour, costPerHour: aCostPerHour, gp: aGP }
+    };
+  }
+
+  function inputHTML(key, prefix, suffix, step) {
+    const val = state[key];
+    return '<div class="cro-calc-input-wrap">' +
+      (prefix ? '<span class="cro-calc-affix">' + prefix + '</span>' : '') +
+      '<input type="number" step="' + step + '" value="' + val + '" data-key="' + key + '" class="cro-calc-input" />' +
+      (suffix ? '<span class="cro-calc-affix cro-calc-affix-right">' + suffix + '</span>' : '') +
+      '</div>';
+  }
+
+  function calcHTML(value, empty) {
+    return '<div class="cro-calc-calc' + (empty ? ' cro-calc-calc-empty' : '') + '">' + value + '</div>';
+  }
+
+  function render() {
+    const c = compute();
+    const rows = [
+      { label: 'Paint Hours', b: inputHTML('paintHours', '', 'hrs', 0.1), a: calcHTML('—', true) },
+      { label: 'Paint Hours per RO', b: inputHTML('hoursPerRO', '', 'hrs', 0.01), a: inputHTML('actualHoursPerRO', '', 'hrs', 0.01) },
+      { label: 'Total Closed ROs', b: calcHTML(fmtNum(c.budget.closedRO, 1)), a: inputHTML('actualClosedROs', '', '', 1) },
+      { label: 'Average Sales per RO', b: inputHTML('avgSalesPerRO', '$', '', 1), a: calcHTML(fmtMoney(c.actual.avgSalesPerROCalc)) },
+      { label: 'Sales % of Total Sales', b: inputHTML('salesPctBudget', '', '%', 0.1), a: calcHTML(fmtPct(c.actual.salesPctCalc)) },
+      { label: 'Cost % of Total Sales', b: inputHTML('costPctBudget', '', '%', 0.1), a: calcHTML(fmtPct(c.actual.costPctCalc)) },
+      { label: 'Total Sales', b: calcHTML(fmtMoney(c.budget.totalSales)), a: inputHTML('actualTotalSales', '$', '', 0.01) },
+      { label: 'Material Invoiced', b: inputHTML('materialInvoicedBudget', '$', '', 1), a: inputHTML('actualMaterialInvoiced', '$', '', 0.01) },
+      { label: 'Material Sales', b: calcHTML(fmtMoney(c.budget.materialSales)), a: inputHTML('actualMaterialSales', '$', '', 0.01) },
+      { label: 'Material Cost', b: calcHTML(fmtMoney(c.budget.materialCost)), a: inputHTML('actualMaterialCost', '$', '', 0.01) },
+      { label: 'Sales per Hour', b: calcHTML(fmtMoney(c.budget.salesPerHour)), a: calcHTML(fmtMoney(c.actual.salesPerHour)), emphasis: true },
+      { label: 'Cost per Hour', b: calcHTML(fmtMoney(c.budget.costPerHour)), a: calcHTML(fmtMoney(c.actual.costPerHour)), emphasis: true },
+      { label: 'Material Gross Profit', b: calcHTML(fmtPct(c.budget.gp)), a: calcHTML(fmtPct(c.actual.gp)), emphasis: true }
+    ];
+
+    const rowsHTML = rows.map(r => (
+      '<div class="cro-calc-row' + (r.emphasis ? ' cro-calc-row-emphasis' : '') + '">' +
+        '<div class="cro-calc-label">' + r.label + '</div>' +
+        '<div class="cro-calc-cell">' + r.b + '</div>' +
+        '<div class="cro-calc-cell">' + r.a + '</div>' +
+      '</div>'
+    )).join('');
+
+    document.getElementById('cro-calc-rows').innerHTML = rowsHTML;
+
+    const gpDelta = c.actual.gp - c.budget.gp;
+    const sphDelta = c.actual.salesPerHour - c.budget.salesPerHour;
+
+    document.getElementById('cro-calc-summary').innerHTML =
+      '<div class="cro-calc-card">' +
+        '<div class="cro-calc-card-accent"></div>' +
+        '<div class="cro-calc-card-label">Budget GP</div>' +
+        '<div class="cro-calc-card-value">' + fmtPct(c.budget.gp) + '</div>' +
+        '<div class="cro-calc-card-sub">' + fmtMoney(c.budget.salesPerHour) + ' / hr sold</div>' +
+      '</div>' +
+      '<div class="cro-calc-card">' +
+        '<div class="cro-calc-card-accent ' + (gpDelta >= 0 ? 'cro-calc-card-accent-success' : 'cro-calc-card-accent-danger') + '"></div>' +
+        '<div class="cro-calc-card-label">Actual GP</div>' +
+        '<div class="cro-calc-card-value">' + fmtPct(c.actual.gp) + '</div>' +
+        '<div class="cro-calc-card-sub">' +
+          '<span class="' + (gpDelta >= 0 ? 'cro-calc-delta-pos' : 'cro-calc-delta-neg') + '">' +
+            (gpDelta >= 0 ? '▲' : '▼') + ' ' + fmtPct(Math.abs(gpDelta)) +
+          '</span> vs budget' +
+        '</div>' +
+      '</div>' +
+      '<div class="cro-calc-card">' +
+        '<div class="cro-calc-card-accent ' + (sphDelta >= 0 ? 'cro-calc-card-accent-success' : 'cro-calc-card-accent-danger') + '"></div>' +
+        '<div class="cro-calc-card-label">Sales / Hour Δ</div>' +
+        '<div class="cro-calc-card-value">' + (sphDelta >= 0 ? '+' : '−') + fmtMoneyWhole(Math.abs(sphDelta)) + '</div>' +
+        '<div class="cro-calc-card-sub">Budget ' + fmtMoney(c.budget.salesPerHour) + ' → Actual ' + fmtMoney(c.actual.salesPerHour) + '</div>' +
+      '</div>';
+
+    // Rebind input handlers
+    document.querySelectorAll('.cro-calc-input').forEach(el => {
+      el.addEventListener('input', (e) => {
+        const key = e.target.dataset.key;
+        const v = e.target.value;
+        state[key] = v === '' ? 0 : parseFloat(v);
+        render();
+        // Restore focus
+        requestAnimationFrame(() => {
+          const newEl = document.querySelector('.cro-calc-input[data-key="' + key + '"]');
+          if (newEl) {
+            newEl.focus();
+            const len = newEl.value.length;
+            try { newEl.setSelectionRange(len, len); } catch(e) {}
+          }
+        });
+      });
+    });
+  }
+
+  document.getElementById('cro-calc-reset').addEventListener('click', () => {
+    state = Object.assign({}, defaults);
+    render();
+  });
+
+  render();
+})();
+</script>
+
